@@ -4,4 +4,6 @@ pandas
 numpy
 seaborn
 datasets
+nltk
+scikit-learn
 -e .
