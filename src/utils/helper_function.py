@@ -3,6 +3,7 @@ import nltk
 import re
 from sklearn.model_selection import train_test_split
 from nltk.tokenize import word_tokenize
+nltk.download('punkt')
 
 def load_data(csv_path):
     df = pd.read_csv(csv_path)
@@ -10,8 +11,8 @@ def load_data(csv_path):
 
 def combine_data(df):
     df['combined'] = df.apply(lambda row:f"Jenis Kelamin: {row['Jenis Kelamin']}" + 
-                              f"Provinsi: {row['Provinsi']} Kabupaten/Kota: {row['Kabupaten/Kota']}" + 
-                              f"Interest: {row['Interest']} Bahasa: {row['Bahasa']} Kriteria: {row['Kriteria']}")
+                              f" Provinsi: {row['Provinsi']} Kabupaten/Kota: {row['Kabupaten/Kota']}" + 
+                              f" Interest: {row['Interest']} Bahasa: {row['Bahasa']} Kriteria: {row['Kriteria']}", axis=1)
     return df
 
 def clean_data(text):
