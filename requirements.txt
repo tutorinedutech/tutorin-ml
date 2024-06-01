@@ -6,4 +6,5 @@ seaborn
 datasets
 nltk
 scikit-learn
+keras-nlp
 -e .
