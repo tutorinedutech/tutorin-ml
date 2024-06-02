@@ -28,8 +28,8 @@ class SiameseModel:
         sen1, sen2 = tf.split(inputs, 2, axis=1)
         
         # Get the embeddings
-        u = self.encoder(tf.squeeze(sen1, axis=1))
-        v = self.encoder(tf.squeeze(sen2, axis=1))
+        u = self.encoder(sen1)
+        v = self.encoder(sen2)
         
         # Compute the cosine similarity
         cosine_similarity_scores = tf.keras.layers.Dot(axes=1, normalize=True)([u, v])
