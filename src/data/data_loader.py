@@ -1,4 +1,3 @@
-import pandas as pd
 import tensorflow as tf
 
 class DataLoader:
@@ -28,17 +27,18 @@ class DataLoader:
         return train_ds, val_ds, test_ds
     
 class Preprocess:
-     def __init__(self, batch_size, num_batches, AUTOTUNE):
+    def __init__(self, ds, batch_size, num_batches, AUTOTUNE):
         self.batch_size = batch_size
         self.num_batches = num_batches
         self.AUTOTUNE = AUTOTUNE
+        self.ds = ds
 
-     def change_range(self, x):
+    def change_range(self, x):
         x = (x/2.5)-2
         return x
     
-    def preprocessing_data(self, ds):
-        ds = ds.map(
+    def preprocessing_data(self):
+        ds = self.ds.map(
             lambda z: (
                 [z['Prompt'], z['Kriteria']],
                 [tf.cast(self.change_range(z['label']), tf.float32)]
