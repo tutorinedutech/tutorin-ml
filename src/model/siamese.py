@@ -25,7 +25,7 @@ class SiameseModel:
         
         # Define the inputs for the Siamese model
         inputs = keras.Input(shape=(2,), dtype="string", name="sentences")
-        sen1, sen2 = tf.split(inputs, 2, axis=1)
+        sen1, sen2 = tf.keras.ops.split(inputs, 2, axis=1)
         
         # Get the embeddings
         u = self.encoder(sen1)
