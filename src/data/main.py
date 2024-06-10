@@ -1,6 +1,8 @@
+import keras
+import tensorflow as tf
 from src.data.pre_processing import train_word2vec, create_embedding_matrix, create_train_dev
 import pandas as pd
-from tensorflow.keras.preprocessing.text import Tokenizer
+from keras.preprocessing.text import Tokenizer # type: ignore
 
 df = pd.read_csv('data_source/processed/clean_data.csv')
 

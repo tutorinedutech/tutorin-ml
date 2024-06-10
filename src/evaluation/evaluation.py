@@ -1,7 +1,9 @@
-from tensorflow.keras.models import load_model
+import keras
+import tensorflow as tf
+from keras.models import load_model # type: ignore
 from src.data.pre_processing import word_embed_meta_data, create_test_data, create_train_dev
 import pandas as pd
-from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.text import Tokenizer # type: ignore
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import numpy as np
 import os

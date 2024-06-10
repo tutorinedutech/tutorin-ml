@@ -9,4 +9,5 @@ scikit-learn
 keras-nlp
 gensim
 scipy==1.10.1
+flask
 -e .

@@ -26,10 +26,8 @@ class SiameneLSTM:
         self.validation_split_ratio = validation_split_ratio
         
         
-    def train_model(self, df, embedding_meta_data, model_save_directory='./'):
+    def train_model(self, df, model_save_directory='./'):
         
-        embedding_matrix = embedding_meta_data['embedding_matrix']
-
         train_data_x1, train_data_x2, train_labels, \
         val_data_x1, val_data_x2, val_labels = create_train_dev(df, self.max_sequence_length, self.validation_split_ratio)
 

@@ -1,11 +1,12 @@
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow import keras
+from tensorflow.keras.preprocessing.text import Tokenizer # type: ignore
+from tensorflow.keras.preprocessing.sequence import pad_sequences # type: ignore
 from gensim.models import Word2Vec
 
 import numpy as np
 import gc
 
-def train_word2vec(documents, embedding_dim):
+"""def train_word2vec(documents, embedding_dim):
     model = Word2Vec(documents, min_count=1, vector_size=embedding_dim)
     word_vectors = model.wv
     del model
@@ -23,12 +24,12 @@ def create_embedding_matrix(tokenizer, word_vectors, embedding_dim):
 
 def word_embed_meta_data(documents, embedding_dim):
     tokenizer = Tokenizer()
-    tokenizer.fit_on_texts(" ".join(documents))
+    tokenizer.fit_on_texts(' '.join(documents))
     word_vectors = train_word2vec(documents, embedding_dim)
     embedding_matrix = create_embedding_matrix(tokenizer, word_vectors, embedding_dim)
     del word_vectors
     gc.collect()
-    return embedding_matrix
+    return embedding_matrix"""
 
 def create_train_dev(df, max_sequence_length, validation_split_ratio):
     prompt = df['Prompt'].astype(str)
@@ -39,7 +40,7 @@ def create_train_dev(df, max_sequence_length, validation_split_ratio):
     kriteria = df['combined'].tolist()
 
     tokenizer = Tokenizer()
-    tokenizer.fit_on_texts(' '.join(prompt+kriteria))
+    tokenizer.fit_on_texts(prompt + kriteria)
     sentence_pair = [(x1, x2) for x1, x2 in zip(prompt, kriteria)]
 
     prompt = [x[0] for x in sentence_pair]
