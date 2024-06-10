@@ -1,5 +1,5 @@
 tensorflow
-keras
+tensorflow-recommenders
 pandas
 numpy
 seaborn
