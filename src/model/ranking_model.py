@@ -3,24 +3,24 @@ import tensorflow_recommenders as tfrs
 from typing import Dict, Text
 
 class RankingModel(tf.keras.Model):
-    def __init__(self, unique_kriteria_mentor_user, unique_mentor_id, embedding_dimension):
+    def __init__(self, unique_kriteria_mentor_user, unique_kriteria_mentor, embedding_dimension=32):
         super().__init__()
         self.embedding_dimension = embedding_dimension
-        self.unique_kriterial_mentor_user = unique_kriteria_mentor_user
-        self.unique_mentor_id = unique_mentor_id
+        self.unique_kriteria_mentor_user = unique_kriteria_mentor_user
+        self.unique_kriteria_mentor = unique_kriteria_mentor
 
         # Compute embeddings for users.
         self.user_embeddings = tf.keras.Sequential([
             tf.keras.layers.StringLookup(
             vocabulary=self.unique_kriteria_mentor_user, mask_token=None),
-            tf.keras.layers.Embedding(len(self.unique_kriteria_mentor_user) + 1, embedding_dimension)
+            tf.keras.layers.Embedding(len(self.unique_kriteria_mentor_user) + 1, self.embedding_dimension)
         ])
 
-        # Compute embeddings for movies.
+        # Compute embeddings for mentor.
         self.mentor_embeddings = tf.keras.Sequential([
             tf.keras.layers.StringLookup(
-                vocabulary=self.unique_mentor_id, mask_token=None),
-                tf.keras.layers.Embedding(len(self.unique_mentor_id) + 1, embedding_dimension)
+                vocabulary=self.unique_kriteria_mentor, mask_token=None),
+                tf.keras.layers.Embedding(len(self.unique_kriteria_mentor) + 1, self.embedding_dimension)
             ])
 
         # Compute predictions.
@@ -32,20 +32,20 @@ class RankingModel(tf.keras.Model):
         tf.keras.layers.Dense(1)
         ])
 
-def call(self, inputs):
+    def call(self, inputs):
 
-    kriteria_mentor_user, mentor_id = inputs
+        kriteria_mentor_user, kriteria_mentor = inputs
 
-    user_embedding = self.user_embeddings(kriteria_mentor_user)
-    mentor_embedding = self.movie_embeddings(mentor_id)
+        user_embedding = self.user_embeddings(kriteria_mentor_user)
+        mentor_embedding = self.mentor_embeddings(kriteria_mentor)
 
-    return self.similarity(tf.concat([user_embedding, mentor_embedding], axis=1))
+        return self.similarity(tf.concat([user_embedding, mentor_embedding], axis=1))
   
-class MovielensModel(tfrs.models.Model):
+class MentorModel(tfrs.models.Model):
 
-    def __init__(self):
+    def __init__(self, unique_kriteria_mentor_user, unique_kriteria_mentor, embedding_dimension=32):
         super().__init__()
-        self.ranking_model: tf.keras.Model = RankingModel()
+        self.ranking_model: tf.keras.Model = RankingModel(unique_kriteria_mentor_user, unique_kriteria_mentor, embedding_dimension)
         self.task: tf.keras.layers.Layer = tfrs.tasks.Ranking(
             loss = tf.keras.losses.MeanSquaredError(),
             metrics=[tf.keras.metrics.RootMeanSquaredError()]
@@ -53,7 +53,7 @@ class MovielensModel(tfrs.models.Model):
 
     def call(self, features: Dict[str, tf.Tensor]) -> tf.Tensor:
         return self.ranking_model(
-            (features["kriteria_mentor_user"], features["mentor_ic"]))
+            (features["kriteria_mentor_user"], features["kriteria_mentor"]))
 
     def compute_loss(self, features: Dict[Text, tf.Tensor], training=False) -> tf.Tensor:
         labels = features.pop("similarity")

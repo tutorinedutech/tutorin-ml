@@ -28,11 +28,13 @@ def get_tensor_data(similar_df, mentor_df):
         similar_ds: The tensor dataset with just user_id, mentor_id, and kriteria_mentor_user
         mentor_ds: The tensor dataset with just mentor_id
     '''
-    similar_ds = tf.data.Dataset.from_tensor_slices(dict(similar_df[['user_id', 'mentor_id', 'kriteria_mentor_user', 'similarity']]))
+    similar_ds = tf.data.Dataset.from_tensor_slices(dict(similar_df[['user_id', 'mentor_id', 'kriteria_mentor_user', 'kriteria_mentor','similarity']]))
     mentor_ds = tf.data.Dataset.from_tensor_slices(dict(mentor_df[['mentor_id']]))
     similar_ds = similar_ds.map(lambda x: {'user_id': tf.as_string(x['user_id']),
                                            'mentor_id': tf.as_string(x['mentor_id']),
-                                           'kriteria_mentor_user': x['kriteria_mentor_user']})
+                                           'kriteria_mentor_user': x['kriteria_mentor_user'],
+                                           'kriteria_mentor': x['kriteria_mentor'],
+                                           'similarity': float(x['similarity'])})
     mentor_ds = mentor_ds.map(lambda x: tf.as_string(x['mentor_id']))
     return similar_ds, mentor_ds
 
