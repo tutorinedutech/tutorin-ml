@@ -12,8 +12,8 @@ def load_data(data_path):
         similar_df: The pandas dataframe for user which similarity score with mentor.
         mentor_df: The pandas dataframe for all mentor corpus dataset.
     '''
-    similar_df = pd.read_excel("", sheet_name='similar')
-    mentor_df = pd.read_excel("", sheet_name='mentor')
+    similar_df = pd.read_excel(data_path, sheet_name='similar')
+    mentor_df = pd.read_excel(data_path, sheet_name='mentor')
     return similar_df, mentor_df
 
 def get_tensor_data(similar_df, mentor_df):
@@ -32,7 +32,7 @@ def get_tensor_data(similar_df, mentor_df):
     mentor_ds = tf.data.Dataset.from_tensor_slices(dict(mentor_df[['mentor_id']]))
     similar_ds = similar_ds.map(lambda x: {'user_id': tf.as_string(x['user_id']),
                                            'mentor_id': tf.as_string(x['mentor_id']),
-                                           'kriteria_mentor_user': x['kirteria_mentor_user']})
+                                           'kriteria_mentor_user': x['kriteria_mentor_user']})
     mentor_ds = mentor_ds.map(lambda x: tf.as_string(x['mentor_id']))
     return similar_ds, mentor_ds
 
@@ -45,12 +45,12 @@ def split_data(similar_ds, train_split, random_seed):
         train_plit: size of split
 
     returns:
-        train: Tensor dataset for train.
-        test: Tensor dataset for test.
+        cached_train: Tensor dataset for train.
+        cached_test: Tensor dataset for test.
     '''
 
     length_data = len(list(similar_ds))
-    train_size = int(length_data*lengt_data)
+    train_size = int(length_data*train_split)
     test_size = length_data-train_size
 
     tf.random.set_seed(random_seed)
@@ -58,4 +58,7 @@ def split_data(similar_ds, train_split, random_seed):
 
     train = shuffled.take(train_size)
     test = shuffled.skip(train_size).take(test_size)
-    return train, test
+
+    cached_train = train.shuffle(100).batch(4).cache()
+    cached_test = test.batch(4).cache()
+    return cached_train, cached_test

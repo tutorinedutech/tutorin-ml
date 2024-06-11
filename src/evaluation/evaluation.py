@@ -1,37 +1,18 @@
-import keras
-import tensorflow as tf
-from keras.models import load_model # type: ignore
-from src.data.pre_processing import word_embed_meta_data, create_test_data, create_train_dev
-import pandas as pd
-from tensorflow.keras.preprocessing.text import Tokenizer # type: ignore
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-import numpy as np
-import os
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+import requests
+import json
 
-EMBEDDING_DIM = 50
+# URL API TensorFlow Serving
+url = 'http://localhost:8601/v1/models/saved_model:predict'
 
-df = pd.read_csv('E:\\Projects\\tutorin-ml\\data_source\\processed\\clean_data.csv')
+# Data yang akan dikirimkan ke model
+data = {
+    "instances": ["Saya ingin belajar fisika dengan mahasiswa fisika yang sudah berpengalaman menjadi asisten dosen dan juga di daerah Yogyakarta dengan menggunakan bahasa indonesia harus laki-laki."]
+}
 
-df['Prompt'] = df['Prompt'].astype(str)
-df['combined'] = df['combined'].astype(str)
-    
-question1 = df['Prompt']
-question2 = df['combined']
-label = df['Skor Label']
-    
-## creating questions pairs
-#questions_pair = [(x1, x2) for x1, x2 in zip(question1, question2)]
-#print("----------created questions pairs-----------")
+# Mengirimkan permintaan POST
+response = requests.post(url, json=data)
+predictions = response.json()
 
-
-
-tokenizer = Tokenizer(num_words=100)
-tokenizer.fit_on_texts(question1 + question2)
-
-new_model = load_model('E:\Projects\\tutorin-ml\checkpoints\\1717653513\lstm_50_50_0.17_0.25.keras')
-
-
-seq = tokenizer.texts_to_sequences(['I love you'])
-print(seq)
-
+# Memeriksa dan menampilkan hasil prediksi
+recomendation = predictions['predictions'][0]['output_2'][:3]
+print(recomendation)

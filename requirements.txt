@@ -1,5 +1,5 @@
-tensorflow
-tensorflow-recommenders
+tensorflow==2.15.0
+tensorflow-recommenders==0.7.3
 pandas
 numpy
 seaborn
@@ -10,4 +10,5 @@ keras-nlp
 gensim
 scipy==1.10.1
 flask
+openpyxl
 -e .
