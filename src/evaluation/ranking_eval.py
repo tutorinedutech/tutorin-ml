@@ -15,5 +15,5 @@ for kriteria_mentor in test_kriteria_mentor:
   })
 
 print("Similarity:")
-for title, score in sorted(test_similarity.items(), key=lambda x: x[1], reverse=True):
-  print(f"{title}: {score}")
+for kriteria_mentor, score in sorted(test_similarity.items(), key=lambda x: x[1], reverse=True):
+  print(f"{kriteria_mentor}: {score}")
