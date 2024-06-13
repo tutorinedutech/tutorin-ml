@@ -24,10 +24,10 @@ kriteria_mentor = similar_ds.batch(10).map(lambda x: x['kriteria_mentor'])
 unique_kriteria_mentor_user = np.unique(np.concatenate(list(kriteria_mentor_user)))
 unique_kriteria_mentor = np.unique(np.concatenate(list(kriteria_mentor)))
 
-model = MentorModel(unique_kriteria_mentor_user, unique_kriteria_mentor)
+model = MentorModel(similar_ds, 10_000)
 model.compile(optimizer=tf.keras.optimizers.Adagrad(learning_rate=0.1))
 
-model.fit(train, epochs=3)
+model.fit(train, epochs=10)
 
 path = './save_models/ranking_models/1'
 tf.saved_model.save(model, path)

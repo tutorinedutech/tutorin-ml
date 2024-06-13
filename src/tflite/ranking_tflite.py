@@ -4,9 +4,9 @@ model_path = './save_models/ranking_models/1'
 
 converter = tf.lite.TFLiteConverter.from_saved_model(model_path)
 tflite_model = converter.convert()
-open("converted_model.tflite", "wb").write(tflite_model)
+open("converted_model_ranking.tflite", "wb").write(tflite_model)
 
-interpreter = tf.lite.Interpreter(model_path="converted_model.tflite")
+interpreter = tf.lite.Interpreter(model_path="converted_model_ranking.tflite")
 interpreter.allocate_tensors()
 
 # Get input and output tensors.

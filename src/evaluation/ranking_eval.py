@@ -10,7 +10,7 @@ test_kriteria_mentor = ["Saya mahasiswa fisika Universitas Gadjah Mada yang sang
                         "Saya menggunakan beberapa warna dalam mencatat materi tutor agar lebih menarik dan tidak bosan dilihat."]
 for kriteria_mentor in test_kriteria_mentor:
   test_similarity[kriteria_mentor] = loaded({
-        "kriteria_mentor_user": tf.constant(["Mencari tutor fisika yang berpengalaman"], dtype=tf.string),
+        "kriteria_mentor_user": tf.constant(['Saya ingin belajar fisika dengan mahasiswa fisika yang sudah berpengalaman menjadi asisten dosen dan juga di daerah Yogyakarta dengan menggunakan bahasa indonesia harus laki-laki.'], dtype=tf.string),
         "kriteria_mentor": tf.constant([kriteria_mentor], dtype=tf.string),
   })
 

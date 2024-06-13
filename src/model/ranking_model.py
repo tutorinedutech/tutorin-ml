@@ -3,25 +3,29 @@ import tensorflow_recommenders as tfrs
 from typing import Dict, Text
 
 class RankingModel(tf.keras.Model):
-    def __init__(self, unique_kriteria_mentor_user, unique_kriteria_mentor, embedding_dimension=32):
+    def __init__(self, similar_ds, max_tokens, embedding_dimension=32):
         super().__init__()
         self.embedding_dimension = embedding_dimension
-        self.unique_kriteria_mentor_user = unique_kriteria_mentor_user
-        self.unique_kriteria_mentor = unique_kriteria_mentor
+        self.max_tokens = max_tokens
+        self.similar_ds = similar_ds
 
         # Compute embeddings for users.
+        self.kriteria_mentor_user_vectorizer = tf.keras.layers.TextVectorization(max_tokens=max_tokens)
         self.user_embeddings = tf.keras.Sequential([
-            tf.keras.layers.StringLookup(
-            vocabulary=self.unique_kriteria_mentor_user, mask_token=None),
-            tf.keras.layers.Embedding(len(self.unique_kriteria_mentor_user) + 1, self.embedding_dimension)
+            self.kriteria_mentor_user_vectorizer,
+            tf.keras.layers.Embedding(self.max_tokens, self.embedding_dimension),
+            tf.keras.layers.GlobalAveragePooling1D()
         ])
+        self.kriteria_mentor_user_vectorizer.adapt(self.similar_ds.map(lambda x: x['kriteria_mentor_user']))
 
         # Compute embeddings for mentor.
+        self.kriteria_mentor_vectorizer = tf.keras.layers.TextVectorization(max_tokens=max_tokens)
         self.mentor_embeddings = tf.keras.Sequential([
-            tf.keras.layers.StringLookup(
-                vocabulary=self.unique_kriteria_mentor, mask_token=None),
-                tf.keras.layers.Embedding(len(self.unique_kriteria_mentor) + 1, self.embedding_dimension)
-            ])
+                self.kriteria_mentor_vectorizer,
+                tf.keras.layers.Embedding(self.max_tokens, self.embedding_dimension),
+                tf.keras.layers.GlobalAveragePooling1D()
+        ])
+        self.kriteria_mentor_vectorizer.adapt(self.similar_ds.map(lambda x: x['kriteria_mentor']))
 
         # Compute predictions.
         self.similarity = tf.keras.Sequential([
@@ -43,9 +47,9 @@ class RankingModel(tf.keras.Model):
   
 class MentorModel(tfrs.models.Model):
 
-    def __init__(self, unique_kriteria_mentor_user, unique_kriteria_mentor, embedding_dimension=32):
+    def __init__(self, similar_ds, max_tokens, embedding_dimension=32):
         super().__init__()
-        self.ranking_model: tf.keras.Model = RankingModel(unique_kriteria_mentor_user, unique_kriteria_mentor, embedding_dimension)
+        self.ranking_model: tf.keras.Model = RankingModel(similar_ds, max_tokens, embedding_dimension)
         self.task: tf.keras.layers.Layer = tfrs.tasks.Ranking(
             loss = tf.keras.losses.MeanSquaredError(),
             metrics=[tf.keras.metrics.RootMeanSquaredError()]

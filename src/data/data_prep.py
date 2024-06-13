@@ -61,6 +61,6 @@ def split_data(similar_ds, train_split, random_seed):
     train = shuffled.take(train_size)
     test = shuffled.skip(train_size).take(test_size)
 
-    cached_train = train.shuffle(100).batch(4).cache()
-    cached_test = test.batch(4).cache()
+    cached_train = train.batch(4)
+    cached_test = test.batch(4)
     return cached_train, cached_test
