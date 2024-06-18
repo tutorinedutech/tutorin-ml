@@ -5,7 +5,7 @@ from src.model.ranking_model import MentorModel
 import tensorflow_recommenders as tfrs
 import os
 
-path = 'E:\\Projects\\tutorin-ml\\data_source\\Data_RecomenderSystem (1).xlsx'
+path = 'E:\\Projects\\tutorin-ml\\data_source\\Data_RecomenderSystem.xlsx'
 #load data
 similar_df, mentor_df = load_data(data_path=path)
 

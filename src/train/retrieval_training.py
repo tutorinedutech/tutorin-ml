@@ -5,7 +5,7 @@ from src.model.retrieval_model import RecomenderMentorModel
 import tensorflow_recommenders as tfrs
 import os
 
-path = 'E:\\Projects\\tutorin-ml\\data_source\\Data_RecomenderSystem (1).xlsx'
+path = 'E:\\Projects\\tutorin-ml\\data_source\\Data_RecomenderSystem.xlsx'
 #load data
 similar_df, mentor_df = load_data(data_path=path)
 
@@ -47,6 +47,13 @@ _, mentor_id = index({'kriteria_mentor_user': tf.constant(['Saya ingin belajar f
 print(f"mentor_id: {mentor_id[0][:3]}")
 
 path = './save_models/retrieval_models/1'
+
+#save query model
+path_query = './save_models/query_models/1'
+tf.saved_model.save(model.query_model, path_query)
+#save candidates model
+path_candidate = './save_models/candidate_models/1'
+tf.saved_model.save(model.candidate_model, path_candidate)
 
 # Save the index.
 tf.saved_model.save(index, path)

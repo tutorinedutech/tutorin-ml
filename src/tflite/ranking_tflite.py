@@ -3,6 +3,10 @@ import numpy as np
 model_path = './save_models/ranking_models/1'
 
 converter = tf.lite.TFLiteConverter.from_saved_model(model_path)
+converter.target_spec.supported_ops = [
+  tf.lite.OpsSet.TFLITE_BUILTINS, # enable TensorFlow Lite ops.
+  tf.lite.OpsSet.SELECT_TF_OPS # enable TensorFlow ops.
+]
 tflite_model = converter.convert()
 open("converted_model_ranking.tflite", "wb").write(tflite_model)
 
