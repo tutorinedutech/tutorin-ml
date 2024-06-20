@@ -105,10 +105,6 @@ This project is a machine learning-based recommendation system, specifically des
 4. Push to the branch (`git push origin feature-branch`).
 5. Create a new Pull Request.
 
-## License
-
-This project is licensed under the MIT License - see the `LICENSE` file for details.
-
 ## Acknowledgments
 
 - List any resources, libraries, or contributors you'd like to thank.
