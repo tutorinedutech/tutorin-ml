@@ -32,26 +32,19 @@ This project is a machine learning-based recommendation system, specifically des
   - apps/
     - app.py
   - data/
-    - clean_data.py
-    - data_loader.py
     - data_prep.py
-    - pre_processing.py
   - evaluation/
     - evaluation.py
     - ranking_eval.py
   - model/
     - ranking_model.py
     - retrieval_model.py
-    - siamese.py
   - tflite/
     - ranking_tflite.py
     - retrieval_tflite.py
   - train/
     - ranking_training.py
     - retrieval_training.py
-  - utils/
-    - __init__.py
-    - helper_function.py
 ```
 
 ## Installation
