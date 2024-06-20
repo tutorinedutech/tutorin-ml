@@ -32,8 +32,7 @@ with open(output_file, 'w') as f:
     for mentor_id in mentor_df['mentor_id'].values.tolist():
         embedding = loaded_model(tf.constant([f'{mentor_id}']))
         reshape_embedding = tf.reshape(embedding, (-1,)).numpy()
-        f.write('{"id":"' + str(mentor_id) + '", "embedding":[' + ",".join(str(x) for x in list(reshape_embedding))+ ']}')
-        f.write('\n')
-
+        f.write('{"id": "' + str(mentor_id) + '", "embedding":[' + ",".join(str(x) for x in list(reshape_embedding))+ ']}')
+        f.write("\n")
 print(f"Embeddings saved to {output_file}")
 
