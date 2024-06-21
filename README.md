@@ -51,8 +51,8 @@ This project is a machine learning-based recommendation system, specifically des
 
 1. **Clone the repository:**
    ```sh
-   git clone <repository_url>
-   cd tutorin-ml-main
+   git clone https://github.com/tutorinedutech/tutorin-ml.git
+   cd tutorin-ml
    ```
 
 2. **Install the required packages:**
@@ -69,7 +69,7 @@ This project is a machine learning-based recommendation system, specifically des
 
 1. **Data Preparation:**
    - Use the scripts in `src/data/` for data cleaning and preprocessing.
-   - `data_loader.py` loads the data, and `pre_processing.py` handles initial preprocessing tasks.
+   - `data_prep.py` loads the data and handles initial preprocessing tasks.
 
 2. **Embedding:**
    - Generate candidate embeddings using `embedding/candidate_embedding.py`.
@@ -87,8 +87,6 @@ This project is a machine learning-based recommendation system, specifically des
    - Deploy the models using TensorFlow Lite scripts in `src/tflite/`.
    - `ranking_tflite.py` and `retrieval_tflite.py` convert the trained models to TensorFlow Lite format.
 
-6. **Application:**
-   - Run the application using `src/apps/app.py`.
 
 ## Contributing
 
